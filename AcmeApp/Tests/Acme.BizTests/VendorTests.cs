@@ -62,7 +62,7 @@ namespace Acme.Biz.Tests
         {
             var vendor = new Vendor();
             var product = new Product(1, "Saw", "");
-            var expected = new OperationResult(true, "Order from Acme, Inc\r\nProduct: Tools-1\r\nQuantity: 12"+ "\r\nInstructions: standard delivery");
+            var expected = new OperationResult(true, "Order from Acme, Inc\r\nProduct: Tools-1\r\nQuantity: 12" + "\r\nInstructions: standard delivery");
 
             var actual = vendor.PlaceOrder(product, 12);
 
@@ -136,6 +136,32 @@ namespace Acme.Biz.Tests
 
             Assert.AreEqual(expected.Success, actual.Success);
             Assert.AreEqual(expected.Message, actual.Message);
+        }
+
+        [TestMethod()]
+        public void ToStringTest()
+        {
+            var vendor = new Vendor();
+            vendor.VendorId = 1;
+            vendor.CompanyName = "ABC Corp";
+            var expected = "Vendor: ABC Corp";
+
+            var actual = vendor.ToString();
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
+        public void PreparedDirectionsTest()
+        {
+            var vendor = new Vendor();
+            //verbatim string
+            var expected = @"Insert \r\n to define a new line";
+
+            var actual = vendor.PreparedDirections();
+            Console.WriteLine(actual);
+
+            Assert.AreEqual(expected, actual);
         }
     }
 }

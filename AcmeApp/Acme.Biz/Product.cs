@@ -46,8 +46,7 @@ namespace Acme.Biz
             Console.WriteLine("Product instance has a name: " + ProductName);
         }
 
-
-        public string ProductCode => Category + "-" + SequenceNumber;
+        public string ProductCode => String.Format("{0}-{1}", this.Category, this.SequenceNumber);
 
         public DateTime? AvailibilityDate
         {
