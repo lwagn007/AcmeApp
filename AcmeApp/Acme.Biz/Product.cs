@@ -15,6 +15,10 @@ namespace Acme.Biz
     {
         public const double InchesPerMeter = 39.37;
         public readonly decimal MinimumPrice;
+        public decimal Cost { get; set; }
+        public int SequenceNumber { get; set; } = 1;
+        public string ValidationMessage { get; private set; }
+        internal string Category { get; set; }
         private string _productName;
         private string _productDescription;
         private int _productId;
@@ -42,9 +46,6 @@ namespace Acme.Biz
             Console.WriteLine("Product instance has a name: " + ProductName);
         }
 
-        internal string Category { get; set; }
-        public int SequenceNumber { get; set; } = 1;
-        public string ValidationMessage { get; private set; }
 
         public string ProductCode => Category + "-" + SequenceNumber;
 
@@ -106,6 +107,14 @@ namespace Acme.Biz
             }
         }
 
+        /// <summary>
+        /// Calculate the suggested retail price
+        /// </summary>
+        /// <param name="markUpPercent">Percent used to mark up the cost</param>
+        /// <returns></returns>
+        public decimal CalculateSuggestedPrice(decimal markUpPercent) =>
+            this.Cost + (this.Cost * markUpPercent / 100);
+
         public string SayHello()
         {
             //var vendor = new Vendor();
@@ -120,5 +129,8 @@ namespace Acme.Biz
                     " Available on: " + 
                     AvailibilityDate?.ToShortDateString();
         }
+
+        public override string ToString() =>
+            this.ProductName + " ("+ this._productId + ")";
     }
 }
